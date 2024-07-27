@@ -56,6 +56,7 @@ class TaskController extends Controller
         try {
             $task = $authUser->tasks()->where('id', $request->id)->first();
             $task['task_status'] = $request->task_status;
+            $task->toch();
             $task->update();
             return   ResponseHelper::success(message: 'Task Status Updated!', statusCode: 200);
         } catch (Exception $e) {
@@ -74,8 +75,10 @@ class TaskController extends Controller
 
         try {
             $task = $authUser->tasks()->where('id', $request->id)->first();
+            $task->timestamps = false;
             $task['task'] = $request->task;
             $task->update();
+            $task->timestamps = true;
             return   ResponseHelper::success(message: 'Task Updated!', statusCode: 200);
         } catch (Exception $e) {
             Log::error('Unable to update task  status', [$e->getMessage() . 'Line no' . $e->getLine()]);
@@ -86,6 +89,7 @@ class TaskController extends Controller
     public function allTask()
     {
         $authUser = Auth::user();
+
         if (!$authUser) {
             return ResponseHelper::error(message: 'Unauthorized', statusCode: 401);
         }
