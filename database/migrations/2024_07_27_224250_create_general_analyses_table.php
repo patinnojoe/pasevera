@@ -14,6 +14,14 @@ return new class extends Migration
         Schema::create('general_analyses', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->unsignedBigInteger('user_id');
+            $table->integer('completed_tasks');
+            $table->integer('current_streak');
+            $table->integer('longest_streak');
+            $table->float('status_ranking');
+            $table->string('current_badge');
+            $table->text('username');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

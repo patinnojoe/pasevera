@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Helper\ResponseHelper;
+use App\Models\GeneralAnalysis;
+use App\Models\User;
 use App\Models\UserAnalysis;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -143,7 +145,45 @@ class TaskAnalysisController extends Controller
     }
 
 
-    public function  generalAnalysis()
+    public function generalAnalysis()
     {
+        // Retrieve all users with their user analysis data
+        $users = User::with('userAnalysis')->get();
+
+        // Filter out users without user analysis data
+        $userStats = $users->filter(function ($user) {
+            return $user->userAnalysis !== null;
+        });
+
+        // Sort users by their status ranking
+        $sortedUserStats = $userStats->sortByDesc(function ($user) {
+            return $user->userAnalysis->status_ranking;
+        });
+
+        // Get the top 5 users
+        $topUsers = $sortedUserStats->take(5);
+
+        // Store top users in the leaderboard table
+        GeneralAnalysis::truncate(); // Clear existing leaderboard
+        foreach ($topUsers as $user) {
+            GeneralAnalysis::create([
+                'user_id' => $user->id,
+                'completed_tasks' => $user->tasks->count(),
+                'current_streak' => $user->userAnalysis->current_streak,
+                'longest_streak' => $user->userAnalysis->longest_streak,
+                'status_ranking' => $user->userAnalysis->status_ranking,
+                'username' => $user->username,
+                'current_badge' => $user->userAnalysis->current_badge
+            ]);
+        }
+
+        return ResponseHelper::success(message: 'General analysis retrieved successfully!', data: $topUsers, statusCode: 200);
+    }
+
+    public function getGeneralAnalysis()
+    {
+        $leaders = GeneralAnalysis::with('user')->orderBy('status_ranking', 'desc')->take(5)->get();
+
+        return ResponseHelper::success(message: 'Leaders retrieved successfully!', data: $leaders, statusCode: 200);
     }
 }

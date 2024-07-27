@@ -58,4 +58,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(UserAnalysis::class);
     }
+
+    public function generalAnalysis(): HasOne
+    {
+        return $this->hasOne(GeneralAnalysis::class);
+    }
 }
