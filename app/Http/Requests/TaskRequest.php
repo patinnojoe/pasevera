@@ -26,6 +26,7 @@ class TaskRequest extends FormRequest
             'task_name' => 'nullable|string|max:150',
             'task_status' => 'string|nullable',
             'task' => 'string|required',
+            'user_id' => 'required'
         ];
     }
 }

@@ -31,13 +31,15 @@ class AuthController extends Controller
                 'password' => Hash::make($request->password),
                 'email' => $request->email,
 
+
             ]);
 
             if ($user) {
                 $token = $user->createToken('my API token')->plainTextToken;
                 $authUser = [
                     'token' => $token,
-                    'user' => $user
+                    'user' => $user,
+                    'user_id' => $user->id
                 ];
 
                 return   ResponseHelper::success(message: 'User has been registered to pasevera sucessfully', data: $authUser, statusCode: 201);
@@ -64,7 +66,8 @@ class AuthController extends Controller
             $token = $user->createToken('my API token')->plainTextToken;
             $authUser = [
                 'token' => $token,
-                'user' => $user
+                'user' => $user,
+                'user_id' => $user->id
             ];
             return   ResponseHelper::success(message: 'User has been logged in to pasevera sucessfully', data: $authUser, statusCode: 200);
         } catch (Exception $e) {
