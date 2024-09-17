@@ -23,7 +23,7 @@ Route::controller(TaskController::class)->middleware('auth:sanctum')->group(func
 // Analysis Controller
 Route::controller(TaskAnalysisController::class)->middleware('auth:sanctum')->group(function () {
     // Route::post('userAnalysis', 'userAnalysis');
-    Route::get('userAnalysis', 'userAnalysis');
+    Route::get('getUserAnalysis', 'userAnalysis');
     Route::post('generalAnalysis', 'generalAnalysis');
     Route::get('getGeneralAnalysis', 'getGeneralAnalysis');
 });
