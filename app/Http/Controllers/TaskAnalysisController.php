@@ -16,7 +16,7 @@ class TaskAnalysisController extends Controller
 
 
 
-    public function userAnalysis()
+    public function getUserAnalysis()
     {
         $authUser = Auth::user();
 
