@@ -56,7 +56,7 @@ class TaskController extends Controller
         try {
             $task = $authUser->tasks()->where('id', $request->id)->first();
             $task['task_status'] = $request->task_status;
-            $task->toch();
+            $task->touch();
             $task->update();
             return   ResponseHelper::success(message: 'Task Status Updated!', statusCode: 200);
         } catch (Exception $e) {
