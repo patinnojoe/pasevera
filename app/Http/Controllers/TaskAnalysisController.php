@@ -8,8 +8,9 @@ use App\Models\User;
 use App\Models\UserAnalysis;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
-
 use Illuminate\Support\Facades\Auth;
+
+// use Illuminate\Support\Facades\Auth;
 
 class TaskAnalysisController extends Controller
 {
@@ -19,6 +20,7 @@ class TaskAnalysisController extends Controller
     public function getUserAnalysis()
     {
         $authUser = Auth::user();
+
 
         if (!$authUser) {
             return ResponseHelper::error(message: 'Unauthorized', statusCode: 401);

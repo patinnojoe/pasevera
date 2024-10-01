@@ -42,7 +42,7 @@ class AuthController extends Controller
                     'user_id' => $user->id
                 ];
 
-                return   ResponseHelper::success(message: 'User has been registered to pasevera sucessfully', data: $authUser, statusCode: 201);
+                return   ResponseHelper::success(message: 'User has been registered to pasevera sucessfully', data: $authUser, statusCode: 201,);
             }
             return   ResponseHelper::error(message: 'Something went wrong, please try again');
         } catch (Exception $e) {
